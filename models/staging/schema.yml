@@ -1,0 +1,167 @@
+version: 2
+
+models:
+  - name: stg_chamado_1746
+    description: >
+      Dados de chamados do 1746 provenientes do Data Rio,
+      armazenados em formato parquet e utilizados para análise
+      de volume de chamados por tipo e região.
+
+    columns:
+      - name: id_chamado
+        description: Identificador único do chamado
+        tests:
+          - not_null
+          - unique
+
+      - name: data_inicio
+        description: Data de abertura do chamado
+
+      - name: data_fim
+        description: Data de encerramento do chamado
+
+      - name: data_particao
+        description: Data de referência do registro
+        tests:
+          - not_null
+
+      - name: tipo
+        description: Tipo do chamado (nível principal de análise)
+
+      - name: categoria
+        description: Classificação geral do chamado (serviço, reclamação, etc.)
+
+      - name: subtipo
+        description: Subclassificação do chamado
+
+      - name: status
+        description: Status atual do chamado
+
+      - name: situacao
+        description: Situação do chamado
+
+      - name: tipo_situacao
+        description: Tipo da situação do chamado
+
+      - name: id_tipo
+        description: Identificador do tipo do chamado
+
+      - name: id_subtipo
+        description: Identificador do subtipo do chamado
+
+      - name: id_bairro
+        description: Identificador do bairro do chamado
+
+      - name: id_territorialidade
+        description: Identificador territorial associado
+
+      - name: id_logradouro
+        description: Identificador do logradouro
+
+      - name: numero_logradouro
+        description: Número do logradouro
+
+      - name: longitude
+        description: Longitude do local do chamado
+
+      - name: latitude
+        description: Latitude do local do chamado
+
+      - name: tempo_prazo
+        description: Tempo de prazo do atendimento
+
+      - name: prazo_unidade
+        description: Unidade do prazo
+
+      - name: prazo_tipo
+        description: Tipo de prazo
+
+      - name: dentro_prazo
+        description: Indicador se o chamado foi atendido dentro do prazo
+
+      - name: reclamacoes
+        description: Quantidade de reclamações associadas
+
+      - name: extracted_at
+        description: Timestamp de extração dos dados
+
+      - name: updated_at
+        description: Timestamp de atualização
+
+      - name: data_alvo_finalizacao
+        description: Data prevista para finalização
+
+      - name: data_alvo_diagnostico
+        description: Data prevista para diagnóstico
+
+      - name: data_real_diagnostico
+        description: Data real de diagnóstico
+
+  - name: stg_dim_territorio
+    description: >
+      Dimensão territorial consolidada a partir das bases de bairro,
+      área de planejamento, região administrativa e subprefeitura.
+      Contém as chaves territoriais e coordenadas derivadas dos centroides
+      das geometrias, permitindo enriquecer os chamados do 1746 com
+      informações espaciais.
+
+    columns:
+      - name: id_bairro
+        description: Identificador do bairro, utilizado como chave de ligação com os chamados do 1746.
+        tests:
+          - not_null
+          - unique
+
+      - name: id_regiao_administrativa
+        description: Identificador da região administrativa associada ao bairro.
+        tests:
+          - not_null
+
+      - name: id_area_planejamento
+        description: Identificador da área de planejamento associada ao bairro.
+        tests:
+          - not_null
+
+      - name: subprefeitura
+        description: Subprefeitura associada ao bairro.
+        tests:
+          - not_null
+
+      - name: lat_bairro
+        description: Latitude do centroide da geometria do bairro.
+
+      - name: lon_bairro
+        description: Longitude do centroide da geometria do bairro.
+
+      - name: lat_regiao_administrativa
+        description: Latitude do centroide da geometria da região administrativa.
+
+      - name: lon_regiao_administrativa
+        description: Longitude do centroide da geometria da região administrativa.
+
+      - name: lat_area_planejamento
+        description: Latitude do centroide da geometria da área de planejamento.
+
+      - name: lon_area_planejamento
+        description: Longitude do centroide da geometria da área de planejamento.
+
+      - name: lat_subprefeitura
+        description: Latitude do centroide da geometria da subprefeitura.
+
+      - name: lon_subprefeitura
+        description: Longitude do centroide da geometria da subprefeitura.
+
+      - name: nome_bairro
+        description: Nome do bairro.
+        tests:
+          - not_null
+
+      - name: nome_regiao_administrativa
+        description: Nome da região administrativa.
+        tests:
+          - not_null
+
+      - name: nome_regiao_planejamento
+        description: Nome da região de planejamento.
+        tests:
+          - not_null

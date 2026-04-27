@@ -1,0 +1,10 @@
+*.duckdb
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ip
+logs/
+target/
+dbt_packages/
+data/*.parquet

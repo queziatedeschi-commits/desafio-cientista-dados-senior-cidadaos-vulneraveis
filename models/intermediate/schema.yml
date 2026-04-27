@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: int_chamado_agrupado
+    description: >
+      Modelo intermediário que agrega os chamados do 1746 em granularidade
+      diária, por tipo de chamado, bairro e região administrativa. O modelo
+      utiliza a dimensão territorial para enriquecer os chamados com a região
+      administrativa associada ao bairro.
+
+    columns:
+      - name: data_particao
+        description: Data de referência do agrupamento dos chamados.
+        tests:
+          - not_null
+
+      - name: tipo
+        description: Tipo do chamado, utilizado como principal dimensão temática da análise.
+        tests:
+          - not_null
+
+      - name: id_bairro
+        description: Identificador do bairro onde o chamado foi registrado.
+        tests:
+          - not_null
+
+      - name: id_regiao_administrativa
+        description: Identificador da região administrativa associada ao bairro do chamado.
+        tests:
+          - not_null
+
+      - name: volume_chamados
+        description: Quantidade de chamados registrados por data, tipo, bairro e região administrativa.
+        tests:
+          - not_null
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - data_particao
+            - tipo
+            - id_bairro
+            - id_regiao_administrativa

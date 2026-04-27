@@ -1,0 +1,16 @@
+name: 'cidadaos_vulneraveis'
+version: '1.0.0'
+config-version: 2
+
+profile: 'cidadaos_vulneraveis'
+
+model-paths: ["models"]
+
+models:
+  cidadaos_vulneraveis:
+    staging:
+      +materialized: table
+    intermediate:
+      +materialized: table
+    marts:
+      +materialized: table
